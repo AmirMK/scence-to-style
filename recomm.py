@@ -39,8 +39,8 @@ def get_prompt(theme,validation=False):
             config = yaml.safe_load(file)
 
 
-        prompt = config['prompt'][theme]
-        instructions = config['system_instruction'][theme]
+        prompt = config['prompt']['decoration_recommendation']
+        instructions = config['system_instruction']['decoration_recommendation']
 
         return prompt, instructions
 
