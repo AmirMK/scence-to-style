@@ -1,0 +1,6 @@
+project_id: "vertex-ai-search-v2"
+location: "us-central1"
+service_account_email: "641879769713-compute@developer.gserviceaccount.com"
+bucket: "decoration_recommendation"
+
+  
