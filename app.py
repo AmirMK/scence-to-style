@@ -93,7 +93,7 @@ def display_recommendations(bucket, data, recommendation_type, option, num_recom
         
 def main():
     
-    st.image("./images/logo.png",width=1000)    
+    st.image("./logo.png",width=1000)    
     st.title("")    
     
     get_project_info()
