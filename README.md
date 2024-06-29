@@ -8,20 +8,22 @@ You need to have a GCP account in which the image generation model is activated 
 
 2. **Configure Firewall Rules**  
    Ensure the firewall rules allow access to external IPs.
+![Alt text](images/firewall-rule.png)
+   
 
-3. **Note Project ID and Service Account**  
+4. **Note Project ID and Service Account**  
    Record your project ID and instance service account. Then, run the `setup_gcloud` script as follows:
    ```bash
    ./setup_gcloud.sh <project_id> <service_account_email>
    ```
 
-4. **Clone the Repository**  
+5. **Clone the Repository**  
    Open the Workbench (Jupyter Notebook) and run the following command in the terminal:
    ```bash
    !git clone https://github.com/AmirMK/scence-to-style.git
    ```
 
-5. **Install Required Packages**  
+6. **Install Required Packages**  
    Install the necessary packages by running the following command in the workbench terminal:
    ```bash
    pip install -r requirements.txt
