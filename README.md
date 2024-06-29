@@ -23,22 +23,21 @@ You need to have a GCP account in which the image generation model is activated 
    Record your project ID and instance service account. Go to GCP cloud shell 
    Download the `setup_gcloud` file:
    ```bash
-   ./setup_gcloud.sh <project_id> <service_account_email>
+   wget https://raw.githubusercontent.com/AmirMK/scence-to-style/main/setup_gcloud.sh
    ```
-   Then, run the `setup_gcloud` script as follows:
+   Then, run the `setup_gcloud` script as follows from GCP cloud shell:
    ```bash
    ./setup_gcloud.sh <project_id> <service_account_email>
    ```
 
 6. **Clone the Repository**  
-   Open the Workbench (Jupyter Notebook) and run the following command in the terminal:
+   Open the Workbench (Jupyter Notebook) and run the following command in the workbench terminal:
    ```bash
    !git clone https://github.com/AmirMK/scence-to-style.git
    ```
 
 7. **Adjust the Configuration**  
-   Open `Config.yaml` file in the workbench and adjust the project id and service account email
-   
+   Open `Config.yaml` file in the workbench and adjust the project id and service account email   
 
 8. **Install Required Packages**  
    Install the necessary packages by running the following command in the workbench terminal:
