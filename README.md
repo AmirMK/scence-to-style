@@ -1,5 +1,9 @@
 # Scence to Style:
 
+This is a Streamlit app for furniture recommendations. Users can upload any type of video, and Gemini multimodal analysis evaluates it. If relevant, the app provides a range of furniture recommendations based on the style and architecture of the house. The Imagine model visualizes these recommendations, and Google Lens is used for users to search for items they like by image.
+
+Please note that this is a work in progress. This version is for development and prototyping, running via the Workbench terminal.
+
 <img src="images/cover.gif" alt="Alt text" width="700"/>
 
 
