@@ -69,3 +69,13 @@ You need to have a GCP account in which the image generation model is activated 
 There are some sample videos [here](https://drive.google.com/drive/folders/1gydtdaMmtGANRW3nQ9W7ClV0F7d9MOoX?usp=drive_link) you can try as well as your own videos. 
 
 # Work in progress:
+
+**Known Issues:**
+
+1.  The current code is not optimized for performance. Improving code efficiency is a work in progress.
+2.  There are some known bugs in handling different video formats. Currently, the 'mov' format should work across all parts of the application.
+
+**Extensions:**
+
+1. Adding features to handle images and audio.
+2. Extending recommendations to other areas, such as outfit and food recommendations.
