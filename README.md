@@ -22,7 +22,7 @@ You need to have a GCP account in which the image generation model is activated 
    ```
 
 5. **Install Required Packages**  
-   Install the necessary packages:
+   Install the necessary packages by running the following command in the workbench terminal:
    ```bash
    pip install -r requirements.txt
    ```
