@@ -67,4 +67,5 @@ You need to have a GCP account in which the image generation model is activated 
    <img src="images/app.png" alt="Alt text" width="600"/>
 
 There are some sample videos [here](https://drive.google.com/drive/folders/1gydtdaMmtGANRW3nQ9W7ClV0F7d9MOoX?usp=drive_link) you can try as well as your own videos. 
-   
+
+# Work in progress:
