@@ -32,3 +32,8 @@ You need to have a GCP account in which the image generation model is activated 
    ```bash
    pip install -r requirements.txt
    ```
+6. **Run the app**  
+   Run the streamlit app the following command in the workbench terminal:
+   ```bash
+   streamlit run app.py
+   ```
