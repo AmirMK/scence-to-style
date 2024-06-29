@@ -1,7 +1,7 @@
 
 # Project Setup Instructions
 
-You need to have a GCP account in which the image generation model is activated. (Refer to this link: https://cloud.google.com/vertex-ai/generative-ai/docs/image/overview)
+You need to have a GCP account in which the image generation model is activated (refer to this [link](https://cloud.google.com/vertex-ai/generative-ai/docs/image/overview)).
 
 1. **Create a Workbench Instance**  
    Set up a Workbench instance with Python 3 as the environment.
