@@ -9,6 +9,7 @@ import urllib.parse
 import google.auth
 from google.auth import compute_engine
 from google.auth.transport import requests
+from google.cloud import storage
 
 import recomm as rec
 import gcs_handler as gcsh
@@ -44,7 +45,7 @@ def display_images(bucket, image_paths, furniture_name):
             image = gcsh.get_image(f'{bucket}', image_path)            
             with cols[i % 2]:
                 st.image(image, caption=f"{furniture_name} - {i}", width=300)
-                google_lens_url = ''#generate_signed_url(f'{bucket}', image_path)
+                google_lens_url = generate_signed_url(f'{bucket}', image_path)
                 st.markdown(f"[Google Search]({google_lens_url})")
     except Exception as e:
         st.write(f"Error loading images: {e}")
@@ -99,9 +100,7 @@ def main():
     get_project_info()
             
     with st.sidebar:
-        task = st.radio("What do you want to do?",["Explore","Generate"])        
-        #theme = f'decoration_recommendation'
-        #st.session_state['theme'] = theme
+        task = st.radio("What do you want to do?",["Explore","Generate"])                
         st.session_state['options'] = gcsh.list_subfolders(bucket)        
         st.session_state['option'] = 'None'
         
@@ -120,7 +119,7 @@ def main():
                         st.session_state['data'] = gcsh.load_data(bucket, st.session_state['option'])
                         st.session_state['intro'] = gcsh.read_file_from_bucket(bucket, st.session_state['option'])                   
                         st.session_state['recommendation_types'] = st.session_state['data']['recommendation_type'].unique()
-                        st.session_state['video'] = f"https://storage.cloud.google.com/{bucket}/{st.session_state['option']}/{st.session_state['option']}.{file_type}"
+                        st.session_state['video'] = f"https://storage.cloud.google.com/{bucket}/{st.session_state['option']}/{st.session_state['option']}.mov" #check
                         
 
         elif task == "Generate":
