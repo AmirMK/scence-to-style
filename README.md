@@ -8,7 +8,7 @@ You need to have a GCP account in which the image generation model is activated 
 
 2. **Configure Firewall Rules**  
    Ensure the firewall rules allow access to external IPs.
-![Alt text](images/firewall-rule.png)
+<img src="images/firewall-rule.png" alt="Alt text" width="300"/>
    
 
 4. **Note Project ID and Service Account**  
