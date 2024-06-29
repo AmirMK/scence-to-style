@@ -1,6 +1,8 @@
 
 # Project Setup Instructions
 
+You need to have a GCP account in which the image generation model is activated. (Refer to this link: https://cloud.google.com/vertex-ai/generative-ai/docs/image/overview)
+
 1. **Create a Workbench Instance**  
    Set up a Workbench instance with Python 3 as the environment.
 
@@ -17,4 +19,10 @@
    Open the Workbench (Jupyter Notebook) and run the following command in the terminal:
    ```bash
    !git clone https://github.com/AmirMK/scence-to-style.git
+   ```
+
+5. **Install Required Packages**  
+   Install the necessary packages:
+   ```bash
+   pip install -r requirements.txt
    ```
