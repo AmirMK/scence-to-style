@@ -24,6 +24,3 @@ gcloud projects add-iam-policy-binding test-427822 \
 
 
 gcloud services enable iamcredentials.googleapis.com
-
-
-!git clone https://github.com/AmirMK/scence-to-style.git
