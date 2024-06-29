@@ -78,6 +78,7 @@ There are some sample videos [here](https://drive.google.com/drive/folders/1gydt
 **Extensions:**
 
 1. Adding features to handle images and audio.
-2. Extending recommendations to other areas, such as outfit and food recommendations...
+2. Operationalizing the app by adding a `Cloud Run` component.
+3. Extending recommendations to other areas, such as outfit and food recommendations...
 
 <img src="images/cover-outfit.gif" alt="Alt text" width="700"/>
