@@ -35,21 +35,28 @@ You need to have a GCP account in which the image generation model is activated 
    ./setup_gcloud.sh <project_id> <service_account_email>
    ```
 
-6. **Clone the Repository**  
+5. **Creat a Google Storage Bucket**  
+   The app uses this bukcet to store the recommendations. Run the below command on GCP cloud shell:
+    ```bash
+   gsutil mb gs://<your-bucket-name>
+   ```
+
+
+7. **Clone the Repository**  
    Open the Workbench (Jupyter Notebook) and run the following command in the workbench terminal:
    ```bash
    git clone https://github.com/AmirMK/scence-to-style.git
    ```
 
-7. **Adjust the Configuration**  
-   Open `Config.yaml` file in the workbench and adjust the project id and service account email   
+8. **Adjust the Configuration**  
+   Open `Config.yaml` file in the workbench and adjust the project id, service account email and the bucket. 
 
-8. **Install Required Packages**  
+9. **Install Required Packages**  
    Install the necessary packages by running the following command in the workbench terminal:
    ```bash
    pip install -r requirements.txt
    ```
-9. **Run the app**  
+10. **Run the app**  
    Run the streamlit app the following command in the workbench terminal:
    ```bash
    streamlit run app.py
