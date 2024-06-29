@@ -1,3 +1,7 @@
+# Scence to Style:
+
+<img src="images/cover.gif" alt="Alt text" width="700"/>
+
 
 # Project Setup Instructions
 
