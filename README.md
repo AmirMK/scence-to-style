@@ -62,6 +62,7 @@ You need to have a GCP account in which the image generation model is activated 
    ```bash
    streamlit run app.py
    ```
-   and use the external link to open the app in a separate browsers:
-   <img src="images/app" alt="Alt text" width="800"/>
+   and use the external url to open the app in a separate browsers:
+   
+   <img src="images/app.png" alt="Alt text" width="600"/>
    
