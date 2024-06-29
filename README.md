@@ -12,15 +12,20 @@ Please note that this is a work in progress. This version is for development and
 You need to have a GCP account in which the image generation model is activated (refer to this [link](https://cloud.google.com/vertex-ai/generative-ai/docs/image/overview)).
 
 1. **Create a Workbench Instance**  
-   Set up a Workbench instance with Python 3 as the environment.
+   Set up a Workbench instance with `Python 3.x` as the environment.
+   
+   <img src="images/instance.png" alt="Alt text" width="300"/>
 
-2. **Configure Firewall Rules**  
+3. **Configure Firewall Rules**  
    Ensure the firewall rules allow access to external IPs.
-<img src="images/firewall-rule.png" alt="Alt text" width="300"/>
+<img src="images/firewall.png" alt="Alt text" width="300"/>
    
 
 4. **Enable Required Service and APIs**  
-   Record your project ID and instance service account. Go to GCP cloud shell 
+   Record your project ID and instance service account email:
+<img src="images/config.png" alt="Alt text" width="800"/>
+
+   Go to GCP cloud shell 
    Download the `setup_gcloud` file:
    ```bash
    wget https://raw.githubusercontent.com/AmirMK/scence-to-style/main/setup_gcloud.sh
