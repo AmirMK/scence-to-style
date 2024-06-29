@@ -100,86 +100,80 @@ def main():
     get_project_info()
             
     with st.sidebar:
-        task = st.radio("What do you want to do?",["Explore","Generate"])                
+        task = st.radio("What do you want to do?",["Explore","Generate"],key='user-task')                
         st.session_state['options'] = gcsh.list_subfolders(bucket)        
-        st.session_state['option'] = 'None'
+        #st.session_state['option'] = 'None'
         
 
         if 'task' not in st.session_state or st.session_state['task'] != task:
-                st.session_state['task'] = task
-                st.session_state['option'] = 'None'
-                st.session_state['video'] = ''
-                        
+            if 'data' in st.session_state:
+                del st.session_state['data']
+            st.session_state['task'] = task            
+            st.session_state['video'] = ''               
                 
         if task == "Explore":
                 if 'options' not in st.session_state:
                     st.session_state['options'] = ['None']
+                    
                 st.session_state['option'] = st.selectbox('Select your...', st.session_state['options'])            
-                if st.button('Show me!') and st.session_state['options'] != 'None':            
+                if st.button('Show me!') and st.session_state['option'] != 'None':            
                         st.session_state['data'] = gcsh.load_data(bucket, st.session_state['option'])
                         st.session_state['intro'] = gcsh.read_file_from_bucket(bucket, st.session_state['option'])                   
                         st.session_state['recommendation_types'] = st.session_state['data']['recommendation_type'].unique()
                         st.session_state['video'] = f"https://storage.cloud.google.com/{bucket}/{st.session_state['option']}/{st.session_state['option']}.mov" #check
                         
 
-        elif task == "Generate":
-                        
-            
+        elif task == "Generate":                                    
             task_names = ["Initializing", "Recommendation","Rec Saving","Visulization","Viz Saving"]
-
-
             uploaded_video = st.file_uploader("", type=["mp4", "mov", "avi", "mkv"])
-            
-            filename = st.text_input('Enter the name for your recommendations', value="")
-            st.session_state['option'] = filename
-            if st.button('Show me!') and uploaded_video is not None:
-                
-                kind = filetype.guess(uploaded_video)
-                file_type = kind.extension                
-                
-                task1_status = st.empty()
-                task2_status = st.empty()
-                task3_status = st.empty() 
-                task4_status = st.empty() 
-                task5_status = st.empty() 
-                
-                status_texts = [task1_status, task2_status, task3_status,task4_status,task5_status]
+                       
+            if uploaded_video is not None:
+                filename = st.text_input('Enter the name for your recommendations', value="")
+                if st.button('Show me!'):
+                    st.session_state['option'] = filename
+                    kind = filetype.guess(uploaded_video)
+                    file_type = kind.extension                
 
-                with st.spinner('Generating Recommendation...'):
-                    file = f"{st.session_state['option']}/{st.session_state['option']}.{file_type}"
-                    video_file_url = gcsh.upload_blob_from_file(bucket, uploaded_video,file)                                     
-                    update_progress(1, status_texts,task_names)                 
-                    valid = rec.video_validation(PROJECT_ID, LOCATION, video_file_url,'',file_type)
-                    
-                    if valid == 'yes':
-                                                                    
-                        
-                        update_progress(2, status_texts,task_names)                 
-                        prompt, instructions = rec.get_prompt(bucket)                                                         
-                        response_recom = rec.generate_recommenation(PROJECT_ID, LOCATION, video_file_url,prompt,instructions, file_type)    
-                        intro, df_rocm = rec.clean_response(response_recom)
-                        update_progress(3, status_texts,task_names) 
-                        gcsh.upload_blob_from_string(bucket, intro, destination_blob_path=f"{st.session_state['option']}/Intro.txt")
-                        gcsh.save_df_to_gcs_as_csv(df = df_rocm,  bucket_name = bucket,  destination_blob_name=f"{st.session_state['option']}/Rec_Table.csv")
-                        
-                        update_progress(4, status_texts,task_names) 
-                        rec.image_gen(df_rocm)
-                        
-                        update_progress(5, status_texts,task_names) 
-                        rec.image_save(df_rocm,bucket,st.session_state['option'])
-                        rec.delete_images(df_rocm)
-                
-                        st.success('Done!') 
+                    task1_status = st.empty()
+                    task2_status = st.empty()
+                    task3_status = st.empty() 
+                    task4_status = st.empty() 
+                    task5_status = st.empty() 
 
-                        st.session_state['data'] = gcsh.load_data(bucket, st.session_state['option'])
-                        st.session_state['intro'] = gcsh.read_file_from_bucket(bucket, st.session_state['option'])                   
-                        st.session_state['recommendation_types'] = st.session_state['data']['recommendation_type'].unique()
-                        st.session_state['video'] = f"https://storage.cloud.google.com/{bucket}/{st.session_state['option']}/{st.session_state['option']}.{file_type}"
-                    else:
-                        st.warning('The video does not have any valid/enough scences!')
+                    status_texts = [task1_status, task2_status, task3_status,task4_status,task5_status]
 
-            
-    if 'data' in st.session_state and st.session_state['option']!='None':                                        
+                    with st.spinner('Generating Recommendation...'):
+                        file = f"{st.session_state['option']}/{st.session_state['option']}.{file_type}"
+                        video_file_url = gcsh.upload_blob_from_file(bucket, uploaded_video,file)                                     
+                        update_progress(1, status_texts,task_names)                 
+                        valid = rec.video_validation(PROJECT_ID, LOCATION, video_file_url,'',file_type)
+
+                        if valid == 'yes':
+                            update_progress(2, status_texts,task_names)                 
+                            prompt, instructions = rec.get_prompt(bucket)                                                         
+                            response_recom = rec.generate_recommenation(PROJECT_ID, LOCATION, video_file_url,prompt,instructions, file_type)    
+                            intro, df_rocm = rec.clean_response(response_recom)
+                            update_progress(3, status_texts,task_names) 
+                            gcsh.upload_blob_from_string(bucket, intro, destination_blob_path=f"{st.session_state['option']}/Intro.txt")
+                            gcsh.save_df_to_gcs_as_csv(df = df_rocm,  bucket_name = bucket,  destination_blob_name=f"{st.session_state['option']}/Rec_Table.csv")
+
+                            update_progress(4, status_texts,task_names) 
+                            rec.image_gen(df_rocm)
+
+                            update_progress(5, status_texts,task_names) 
+                            rec.image_save(df_rocm,bucket,st.session_state['option'])
+                            rec.delete_images(df_rocm)
+
+                            st.success('Done!') 
+
+                            st.session_state['data'] = gcsh.load_data(bucket, st.session_state['option'])
+                            st.session_state['intro'] = gcsh.read_file_from_bucket(bucket, st.session_state['option'])                   
+                            st.session_state['recommendation_types'] = st.session_state['data']['recommendation_type'].unique()
+                            st.session_state['video'] = f"https://storage.cloud.google.com/{bucket}/{st.session_state['option']}/{st.session_state['option']}.{file_type}"
+                        else:
+                            st.warning('The video does not have any valid/enough scences!')
+      
+    if 'data' in st.session_state:
             st.sidebar.video(st.session_state['video'])         
             st.subheader(f"Current Style")
             st.write(st.session_state['intro'])
