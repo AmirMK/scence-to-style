@@ -50,7 +50,7 @@ You need to have a GCP account in which the image generation model is activated 
    ```
 
 8. **Adjust the Configuration**  
-   Open `Config.yaml` file in the workbench and adjust the project id, service account email and the bucket. 
+   From the workbench terminal go `scence-to-style` folderto Open `Config.yaml` file in the workbench and adjust the project id, service account email and the bucket. 
 
 9. **Install Required Packages**  
    Install the necessary packages by running the following command in the workbench terminal:
