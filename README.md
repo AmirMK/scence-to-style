@@ -19,24 +19,33 @@ You need to have a GCP account in which the image generation model is activated 
 <img src="images/firewall-rule.png" alt="Alt text" width="300"/>
    
 
-4. **Note Project ID and Service Account**  
-   Record your project ID and instance service account. Then, run the `setup_gcloud` script as follows:
+4. **Enable Required Service and APIs**  
+   Record your project ID and instance service account. Go to GCP cloud shell 
+   Download the `setup_gcloud` file:
+   ```bash
+   ./setup_gcloud.sh <project_id> <service_account_email>
+   ```
+   Then, run the `setup_gcloud` script as follows:
    ```bash
    ./setup_gcloud.sh <project_id> <service_account_email>
    ```
 
-5. **Clone the Repository**  
+6. **Clone the Repository**  
    Open the Workbench (Jupyter Notebook) and run the following command in the terminal:
    ```bash
    !git clone https://github.com/AmirMK/scence-to-style.git
    ```
 
-6. **Install Required Packages**  
+7. **Adjust the Configuration**  
+   Open `Config.yaml` file in the workbench and adjust the project id and service account email
+   
+
+8. **Install Required Packages**  
    Install the necessary packages by running the following command in the workbench terminal:
    ```bash
    pip install -r requirements.txt
    ```
-6. **Run the app**  
+9. **Run the app**  
    Run the streamlit app the following command in the workbench terminal:
    ```bash
    streamlit run app.py
