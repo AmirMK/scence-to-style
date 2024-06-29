@@ -32,6 +32,7 @@ You need to have a GCP account in which the image generation model is activated 
    ```
    Then, run the `setup_gcloud` script as follows from GCP cloud shell:
    ```bash
+   chmod +x setup_gcloud.sh
    ./setup_gcloud.sh <project_id> <service_account_email>
    ```
 
