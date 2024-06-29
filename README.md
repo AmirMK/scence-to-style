@@ -38,7 +38,7 @@ You need to have a GCP account in which the image generation model is activated 
 6. **Clone the Repository**  
    Open the Workbench (Jupyter Notebook) and run the following command in the workbench terminal:
    ```bash
-   !git clone https://github.com/AmirMK/scence-to-style.git
+   git clone https://github.com/AmirMK/scence-to-style.git
    ```
 
 7. **Adjust the Configuration**  
