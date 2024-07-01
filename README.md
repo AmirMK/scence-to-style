@@ -37,7 +37,7 @@ You need to have a GCP account in which the image generation model is activated 
    ```
 
 5. **Create a Google Storage Bucket**  
-   The app uses this bukcet to store the recommendations. Run the below command on GCP cloud shell:
+   The app uses this bucket to store the recommendations. Run the below command on GCP cloud shell:
     ```bash
    gsutil mb gs://<your-bucket-name>
    ```
