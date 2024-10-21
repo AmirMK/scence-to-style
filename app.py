@@ -29,7 +29,7 @@ def video_type_analysis(uploaded_video, filename):
     
 def main():
     
-    st.image("./logo/logo.png",width=1000)    
+    st.image("./logo.png",width=1000)    
     st.title("")    
     
     get_project_info()
