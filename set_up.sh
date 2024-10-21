@@ -64,14 +64,15 @@ curl -O https://raw.githubusercontent.com/AmirMK/scence-to-style/refs/heads/main
 curl -O https://raw.githubusercontent.com/AmirMK/scence-to-style/refs/heads/main/generation.py
 curl -O https://raw.githubusercontent.com/AmirMK/scence-to-style/refs/heads/main/prompt_config.yaml
 curl -O https://raw.githubusercontent.com/AmirMK/scence-to-style/refs/heads/main/requirements.txt
-curl -O https://raw.githubusercontent.com/AmirMK/scence-to-style/refs/heads/main/exploration.py
+curl -O https://raw.githubusercontent.com/AmirMK/scence-to-style/refs/heads/main/Dockerfile
+curl -O https://github.com/AmirMK/scence-to-style/blob/main/logo.png
 
 check_status "Downloading Dockerfile"
 
 
 
 # Build and push Docker image
-IMAGE_NAME="${PROJECT_ID}-image3-bot-img"
+IMAGE_NAME="${PROJECT_ID}-scene-style-img"
 docker build -t gcr.io/$PROJECT_ID/$IMAGE_NAME .
 check_status "Docker build"
 
@@ -79,7 +80,7 @@ docker push gcr.io/$PROJECT_ID/$IMAGE_NAME
 check_status "Docker push"
 
 # Create service account and assign roles
-SA_NAME="${PROJECT_ID}-image3-bot-sa"
+SA_NAME="${PROJECT_ID}-scene-style-sa"
 SA_EMAIL="${SA_NAME}@${PROJECT_ID}.iam.gserviceaccount.com"
 
 gcloud iam service-accounts create $SA_NAME \
@@ -109,7 +110,7 @@ gcloud iam service-accounts add-iam-policy-binding $SA_EMAIL \
 check_status "Assigning serviceAccountTokenCreator IAM policy"
 
 # Set Cloud Run service name
-CLOUD_RUN_NAME="${PROJECT_ID}-image3-cloud-run"
+CLOUD_RUN_NAME="${PROJECT_ID}-scene-style-run"
 
 # Deploy Cloud Run service
 gcloud run deploy $CLOUD_RUN_NAME \
