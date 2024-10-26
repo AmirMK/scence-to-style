@@ -50,8 +50,10 @@ gcloud services enable artifactregistry.googleapis.com
 check_status "Enabling Artifact Registry API"
 
 gcloud services enable run.googleapis.com
-check_status "Enabling Cloud Run API"
+check_status "enables the IAM Service Account Credentials API"
 
+gcloud services enable iamcredentials.googleapis.com --project=$PROJECT_ID
+check_status "Enabling Cloud Run API"
 # Create directory and move into it
 mkdir -p scene_style
 cd scene_style || exit
