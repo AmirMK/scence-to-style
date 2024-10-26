@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import mimetypes
 import yaml
@@ -7,11 +8,9 @@ import exploration as ex
 
 #@st.cache_data
 def get_project_info():    
-    global project_id, location, service_account_email, bucket
-    with open('config.yaml', 'r') as file:
-            config = yaml.safe_load(file)
+    global project_id, location,  bucket
             
-    project_id, location, service_account_email, bucket =  config['project_id'], config['location'], config['service_account_email'], config['bucket']
+    project_id, location, bucket =  os.getenv("PROJECT_ID"), os.getenv("LOCATION"), os.getenv("BUCKET_NAME")
     
     return 0 
 
@@ -29,7 +28,7 @@ def video_type_analysis(uploaded_video, filename):
     
 def main():
     
-    st.image("./logo.png",width=1000)    
+    #st.image("./logo.png",width=1000)    
     st.title("")    
     
     get_project_info()
@@ -52,7 +51,7 @@ def main():
                 gen.generate_recommendation(project_id, location, video_file_url, bucket, updated_filename, mime_type)
                 
     with tab_exploration:            
-            ex.explore(bucket, service_account_email)
+            ex.explore(bucket)
     
                      
 if __name__ == "__main__":

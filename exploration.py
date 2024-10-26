@@ -88,7 +88,7 @@ def display_recommendations(bucket,recs,intro,video_url):
             st.divider()  
 
         
-def explore(bucket_name, service_account_email):
+def explore(bucket_name):
     file_list = gcsh.list_subfolders(bucket_name)
     subfolder = st.selectbox('Select your item', file_list)
     if st.button('Show the recommendations', key='recomendation'):
