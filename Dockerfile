@@ -17,4 +17,4 @@ EXPOSE 8080
 ENV PORT=8080
 
 # Run the application using Streamlit
-CMD ["streamlit", "run", "app.py", "--server.port", "8080"]
+CMD ["streamlit", "run", "app.py", "--server.port", "8080", "--server.address", "0.0.0.0"]
