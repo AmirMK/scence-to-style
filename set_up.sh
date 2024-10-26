@@ -123,14 +123,18 @@ gcloud run deploy $CLOUD_RUN_NAME \
     --image gcr.io/$PROJECT_ID/$IMAGE_NAME \
     --platform managed \
     --region us-central1 \
-    --member="allUsers" \
-    --role="roles/run.invoker" \
     --allow-unauthenticated \
     --service-account $SA_EMAIL \
     --set-env-vars PROJECT_ID=$PROJECT_ID,BUCKET_NAME=$BUCKET_NAME,LOCATION=us-central1 \
     --concurrency 10 \
     --timeout 180
 check_status "Cloud Run deployment"
+
+gcloud run services add-iam-policy-binding $CLOUD_RUN_NAME \
+    --region=us-central1 \
+    --member="allUsers" \
+    --role="roles/run.invoker"
+check_status "Cloud Run authentication"
 
 # Finish setup
 echo "Setup completed successfully!"
