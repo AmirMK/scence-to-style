@@ -34,9 +34,12 @@ def get_config():
 def get_prompt(PROJECT_ID, LOCATION, video_file_url,opiotns,config,mime_type):
     
     theme_res = identify_recommenation(PROJECT_ID, LOCATION, video_file_url,opiotns,mime_type)
+    options = ['decoration_recommendation','fashion_recommendation']
+    themes = [option for option in options if option in theme_res.text]
+
     
-    if theme_res.text.strip(' "\'') in ['decoration_recommendation','fashion_recommendation']:
-        theme = theme_res.text.strip(' "\'')
+    if themes:
+        theme = themes[0]
         prompt = config['prompt'][theme]
         instructions = config['system_instruction'][theme]
         response_schema = config['response_schema'][theme]
