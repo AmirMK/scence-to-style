@@ -2,7 +2,7 @@
 
 # Function to display usage message
 usage() {
-    echo "Usage: $0 --project_id <project_id> --peo_access_key <peo_access_key>"
+    echo "Usage: $0 --project_id <project_id>"
     exit 1
 }
 
@@ -18,20 +18,20 @@ check_status() {
 while [[ "$#" -gt 0 ]]; do
     case $1 in
         --project_id) PROJECT_ID="$2"; shift ;;
-        --peo_access_key) PEO_ACCESS_KEY="$2"; shift ;;
         *) usage ;;
     esac
     shift
 done
 
 # Check if required arguments are provided
-if [ -z "$PROJECT_ID" ] || [ -z "$PEO_ACCESS_KEY" ]; then
+if [ -z "$PROJECT_ID" ]; then
     echo "Error: PROJECT_ID and peo_access_key must be provided."
     usage
 fi
 
-# Automatically set the bucket name based on the project_id
+# Automatically set the bucket name and the service account name based on the project_id
 BUCKET_NAME="${PROJECT_ID}_scene_style"
+SA_NAME="${PROJECT_ID}-scene-style-sa"
 
 # Enable necessary GCP APIs
 gcloud services enable storage.googleapis.com
@@ -83,7 +83,6 @@ docker push gcr.io/$PROJECT_ID/$IMAGE_NAME
 check_status "Docker push"
 
 # Create service account and assign roles
-SA_NAME="${PROJECT_ID}-scene-style-sa"
 SA_EMAIL="${SA_NAME}@${PROJECT_ID}.iam.gserviceaccount.com"
 
 gcloud iam service-accounts create $SA_NAME \
