@@ -65,7 +65,6 @@ curl -O https://raw.githubusercontent.com/AmirMK/scence-to-style/refs/heads/main
 curl -O https://raw.githubusercontent.com/AmirMK/scence-to-style/refs/heads/main/prompt_config.yaml
 curl -O https://raw.githubusercontent.com/AmirMK/scence-to-style/refs/heads/main/requirements.txt
 curl -O https://raw.githubusercontent.com/AmirMK/scence-to-style/refs/heads/main/Dockerfile
-curl -O https://github.com/AmirMK/scence-to-style/blob/main/logo.png
 
 check_status "Downloading Dockerfile"
 
