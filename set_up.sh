@@ -109,6 +109,9 @@ gcloud iam service-accounts add-iam-policy-binding $SA_EMAIL \
     --member="serviceAccount:${SA_EMAIL}"
 check_status "Assigning serviceAccountTokenCreator IAM policy"
 
+gsutil iam ch serviceAccount:$SA_EMAIL:legacyBucketReader gs://$BUCKET_NAME
+check_status "Assigning legecy read access"
+
 # Set Cloud Run service name
 CLOUD_RUN_NAME="${PROJECT_ID}-scene-style-run"
 
@@ -117,6 +120,8 @@ gcloud run deploy $CLOUD_RUN_NAME \
     --image gcr.io/$PROJECT_ID/$IMAGE_NAME \
     --platform managed \
     --region us-central1 \
+    --member="allUsers" \
+    --role="roles/run.invoker" \
     --allow-unauthenticated \
     --service-account $SA_EMAIL \
     --set-env-vars PROJECT_ID=$PROJECT_ID,BUCKET_NAME=$BUCKET_NAME,LOCATION=us-central1 \
