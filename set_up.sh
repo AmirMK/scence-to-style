@@ -135,5 +135,29 @@ gcloud run services add-iam-policy-binding $CLOUD_RUN_NAME \
     --role="roles/run.invoker"
 check_status "Cloud Run authentication"
 
+# Create app_info.txt with project details
+cat <<EOF > app_info.txt
+Project Information:
+
+- Project ID: $PROJECT_ID
+  Description: The Google Cloud project in which the resources are deployed.
+
+- Service Account Name: $SA_NAME
+  Description: The name of the service account created for accessing GCP services securely.
+
+- Service Account Email: $SA_EMAIL
+  Description: The email associated with the service account, used for authentication and permissions.
+
+- Bucket Name: $BUCKET_NAME
+  Description: The Google Cloud Storage bucket where application files are stored.
+
+- Cloud Run URL: $CLOUD_RUN_URL
+  Description: The URL of the deployed Cloud Run service, accessible to all users (public).
+EOF
+
+# Notify user of completion
+echo "Setup completed successfully!"
+echo "App information saved to app_info.txt."
+
 # Finish setup
 echo "Setup completed successfully!"
