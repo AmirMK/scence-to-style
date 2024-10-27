@@ -30,8 +30,8 @@ if [ -z "$PROJECT_ID" ]; then
 fi
 
 # Automatically set the bucket name and the service account name based on the project_id
-BUCKET_NAME="${PROJECT_ID}_scene_style"
-SA_NAME="${PROJECT_ID}-scene-style-sa"
+BUCKET_NAME="${PROJECT_ID:0:9}_$(shuf -i 10000-99999 -n 1)_scene_style"
+SA_NAME="${PROJECT_ID:0:9}-$(shuf -i 10000-99999 -n 1)-scene-style-sa"
 
 # Enable necessary GCP APIs
 gcloud services enable storage.googleapis.com
