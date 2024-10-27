@@ -48,7 +48,12 @@ def main():
             with st.spinner('Generating Recommendation...'):
                 mime_type, updated_filename, filename_location = video_type_analysis(uploaded_video, filename)
                 video_file_url = gcsh.upload_blob_from_file(bucket, uploaded_video,filename_location)
-                gen.generate_recommendation(project_id, location, video_file_url, bucket, updated_filename, mime_type)
+                if "already exists" in video_file_url:
+                    st.warning("A video with the same name already exists. Please select a different name.")
+                elif "error" in video_file_url:
+                    st.warning("There is an error with video. Please try again.")
+                else:
+                    gen.generate_recommendation(project_id, location, video_file_url, bucket, updated_filename, mime_type)
                 
     with tab_exploration:            
             ex.explore(bucket)
