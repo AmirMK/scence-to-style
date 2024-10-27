@@ -69,10 +69,7 @@ curl -O https://raw.githubusercontent.com/AmirMK/scence-to-style/refs/heads/main
 curl -O https://raw.githubusercontent.com/AmirMK/scence-to-style/refs/heads/main/Dockerfile
 curl -L -o logo.png https://raw.githubusercontent.com/AmirMK/scence-to-style/main/logo.png
 
-
 check_status "Downloading Dockerfile"
-
-
 
 # Build and push Docker image
 IMAGE_NAME="${PROJECT_ID}-scene-style-img"
@@ -89,6 +86,8 @@ gcloud iam service-accounts create $SA_NAME \
     --display-name="$SA_NAME" \
     --project=$PROJECT_ID
 check_status "Service account creation"
+
+sleep 10
 
 # Assign IAM policy bindings
 gcloud projects add-iam-policy-binding $PROJECT_ID \
@@ -113,6 +112,8 @@ check_status "Assigning serviceAccountTokenCreator IAM policy"
 
 gsutil iam ch serviceAccount:$SA_EMAIL:legacyBucketReader gs://$BUCKET_NAME
 check_status "Assigning legecy read access"
+
+sleep 10
 
 # Set Cloud Run service name
 CLOUD_RUN_NAME="${PROJECT_ID}-scene-style-run"
