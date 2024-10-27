@@ -33,6 +33,12 @@ In your Cloud Shell, make the script executable and run it as follows:
   ./set_up.sh --project_id <YOUR_PROJECT_ID>
 ```
 
+## Important Notes
+
+- **Authentication**: By default, the application is configured to allow unauthenticated access. To restrict access, modify the Cloud Run settings in the script.
+- **Environment Variables**: The script sets environment variables that are essential for the application’s functionality.
+
+
 ## What the `set_up.sh` Script Does
 
 The `set_up.sh` script automates the setup process by performing the following actions:
@@ -65,7 +71,3 @@ The `set_up.sh` script automates the setup process by performing the following a
 ### Completion
 - Outputs a success message once the setup is complete.
 
-## Important Notes
-
-- **Authentication**: By default, the application is configured to allow unauthenticated access. To restrict access, modify the Cloud Run settings in the script.
-- **Environment Variables**: The script sets environment variables that are essential for the application’s functionality.
