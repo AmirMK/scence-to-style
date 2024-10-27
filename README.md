@@ -32,14 +32,17 @@ In your Cloud Shell, make the script executable and run it as follows:
    chmod +x set_up.sh
   ./set_up.sh --project_id <YOUR_PROJECT_ID>
 ```
+After the setup completes, you’ll receive the URL for accessing the web application. Additionally, all the application information, including project details, service account name, bucket name, and Cloud Run URL, will be saved in app_info.txt for reference.
 
 ## Important Notes
 
 - **Authentication**: By default, the application is configured to allow unauthenticated access. To restrict access, modify the Cloud Run settings in the script.
-- **Environment Variables**: The script sets environment variables that are essential for the application’s functionality.
+
+- **Environment Variables**: The script sets essential environment variables for the application’s functionality:
+  - **Service Account and Bucket Name**: In addition to `PROJECT_ID`, these are the main environment variables required to run the app. The script automatically assigns names to these variables, but users can change them by modifying lines 33 and 34 in the `set_up.sh` file.
 
 
-## What the `set_up.sh` Script Does
+## Deployment Process Overview
 
 The `set_up.sh` script automates the setup process by performing the following actions:
 
