@@ -36,7 +36,8 @@ After the setup completes, you’ll receive the URL for accessing the web applic
 
 ## Important Notes
 
-- **Authentication**: By default, the application is configured to allow unauthenticated access. To restrict access, modify the Cloud Run settings in the script.
+- **Authentication**: By default, the application is configured to allow unauthenticated access. To restrict access, you can modify the Cloud Run settings in the script. Additionally, if you want to restrict access to specific users or domains, consider using [Identity-Aware Proxy (IAP)]([https://cloud.google.com/iap](https://github.com/AmirMK/scence-to-style/edit/main/README.md#securing-access-with-identity-aware-proxy-iap)), which provides secure authentication and access control.
+
 
 - **Environment Variables**: The script sets essential environment variables for the application’s functionality:
   - **Service Account and Bucket Name**: In addition to `PROJECT_ID`, these are the main environment variables required to run the app. The script automatically assigns names to these variables, but users can change them by modifying lines 33 and 34 in the `set_up.sh` file.
@@ -74,3 +75,51 @@ The `set_up.sh` script automates the setup process by performing the following a
 ### Completion
 - Outputs a success message once the setup is complete.
 
+## Securing Access with Identity-Aware Proxy (IAP)
+
+To restrict access to your Cloud Run app by user domain (e.g., `@google.com`), Google Cloud's Identity-Aware Proxy (IAP) allows only users with specific email domains to access the application. This method ensures that access is granted based on authenticated Google accounts, regardless of user location or device, creating a seamless yet secure user experience.
+
+## Step-by-Step Instructions
+
+### Step 1: Deploy the Cloud Run App Without Public Access
+First, deploy your Cloud Run app but remove public access. This ensures that only authenticated users can access the app once IAP is enabled.
+
+```bash
+gcloud run deploy $CLOUD_RUN_NAME \
+    --image gcr.io/$PROJECT_ID/$IMAGE_NAME \
+    --platform managed \
+    --region us-central1 \
+    --service-account $SA_EMAIL \
+    --set-env-vars PROJECT_ID=$PROJECT_ID,BUCKET_NAME=$BUCKET_NAME,LOCATION=us-central1 \
+    --concurrency 10 \
+    --timeout 180
+```
+**Note**: Do not include the `--allow-unauthenticated` flag in this command. This prevents unauthenticated, public access to the app.
+
+### Step 2: Enable Identity-Aware Proxy (IAP) for Cloud Run
+1. Open the [Identity-Aware Proxy page in the Google Cloud Console](https://console.cloud.google.com/security/iap).
+2. Find your deployed Cloud Run service in the IAP console.
+3. Toggle **IAP** to **ON** for your service.
+
+### Step 3: Configure Access Control with Domain Restriction
+1. In the IAP page, click on **Access control** for your Cloud Run service.
+2. To allow access by domain, add users with the role `IAP-secured Web App User`.
+3. In the **New Principal** field, specify a domain like `@google.com` to allow all users from that domain, or specify individual emails as needed.
+   - **Example**: To allow users from Google, you would enter `*@google.com` as a principal.
+   - **Generalization**: This can be replaced with any domain you want to allow (e.g., `@example.com` for other organizations).
+4. Click **Save** to apply the access controls.
+
+### Step 4: Testing Access
+1. Share the app’s URL with users from the authorized domain (e.g., `@google.com`).
+2. When they access the URL, they’ll be prompted to sign in with their Google account.
+3. Only users with an email that matches the specified domain will be allowed access.
+
+### Optional: Update Project Policies
+If you’ve previously configured `allowedPolicyMemberDomains` to allow all users, you can remove or restrict this setting, as it’s no longer necessary when IAP is in use.
+
+## Benefits of Using IAP with Domain Restriction
+- **Security**: Limits access to authenticated users from a specific domain, ensuring only authorized personnel can access the app.
+- **Convenience**: Users don’t need to be on a specific network; access is granted based on their email domain.
+- **Scalability**: Easily generalize to any organization by updating the domain in IAP.
+
+This configuration provides a robust and flexible way to secure your Cloud Run app while keeping access management straightforward and scalable.
