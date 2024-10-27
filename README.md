@@ -20,7 +20,7 @@ To set up and deploy the Scene-to-Style app, follow these steps:
 
 ### Step 1: Download the Setup Script
 
-Open your [GCP Cloud Shell](https://cloud.google.com/shell) and download the `set_up.sh` file:
+Open your GCP Cloud Shell and download the `set_up.sh` file:
    ```bash
    curl -L -o set_up.sh https://raw.githubusercontent.com/AmirMK/scence-to-style/main/set_up.sh
 ```
@@ -28,7 +28,7 @@ Open your [GCP Cloud Shell](https://cloud.google.com/shell) and download the `se
 ### Step 2: Run the Setup Script
 In your Cloud Shell, make the script executable and run it as follows:
 
-Open your [GCP Cloud Shell](https://cloud.google.com/shell) and download the `set_up.sh` file:
+
    ```bash
    chmod +x set_up.sh
   ./set_up.sh --project_id <YOUR_PROJECT_ID>
