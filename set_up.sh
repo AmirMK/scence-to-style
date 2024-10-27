@@ -136,6 +136,8 @@ gcloud run services add-iam-policy-binding $CLOUD_RUN_NAME \
     --role="roles/run.invoker"
 check_status "Cloud Run authentication"
 
+sleep 10
+
 CLOUD_RUN_URL=$(gcloud run services describe $CLOUD_RUN_NAME --region us-central1 --format="value(status.url)")
 
 # Create app_info.txt with project details
