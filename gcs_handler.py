@@ -19,10 +19,17 @@ def upload_blob_from_file(bucket_name, file_obj, destination_blob_path):
     storage_client = storage.Client()
     bucket = storage_client.bucket(bucket_name)
     blob = bucket.blob(destination_blob_path)
-    blob.upload_from_file(file_obj)
-    print(f"File uploaded to {destination_blob_path}.")
-    return f"gs://{bucket_name}/{destination_blob_path}"
     
+    if blob.exists(storage_client):
+        return f"already exists."
+    try:
+        blob.upload_from_file(file_obj)
+        print(f"File uploaded to {destination_blob_path}.")
+        return f"gs://{bucket_name}/{destination_blob_path}"
+    except:
+        print("Error:", e)
+        return "Error"
+        
 def upload_blob_from_file_remote(bucket_name, source_file_path, destination_blob_path):
     """Uploads a file to Google Cloud Storage."""
     storage_client = storage.Client()
