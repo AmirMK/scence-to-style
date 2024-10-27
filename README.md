@@ -12,7 +12,8 @@ This is a Streamlit app for personalized furniture and fashion recommendations. 
    - Create a service account
    - Assign required roles
    - Set up Cloud Run
-4. **Organization Policy** - To make the application accessible outside of GCP, ensure the organization policy `iam.allowedPolicyMemberDomains` allows `allUsers` access to the Cloud Run service.
+4. - **Organization Policy**: To make the application accessible outside of GCP, ensure the organization policy `iam.allowedPolicyMemberDomains` allows access to `allUsers` for the Cloud Run service. Alternatively, you can restrict access to a specific group or domain by setting `iam.allowedPolicyMemberDomains` to the desired domain (e.g., `example.com`) or group, rather than allowing all users. For more details, refer to the [Securing Access with Identity-Aware Proxy (IAP) guide](https://github.com/AmirMK/scence-to-style/edit/main/README.md#securing-access-with-identity-aware-proxy-iap).
+
 
 ## Quick Start
 
@@ -36,8 +37,7 @@ After the setup completes, you’ll receive the URL for accessing the web applic
 
 ## Important Notes
 
-- **Authentication**: By default, the application is configured to allow unauthenticated access. To restrict access, you can modify the Cloud Run settings in the script. Additionally, if you want to restrict access to specific users or domains, consider using [Identity-Aware Proxy (IAP)]([https://cloud.google.com/iap](https://github.com/AmirMK/scence-to-style/edit/main/README.md#securing-access-with-identity-aware-proxy-iap)), which provides secure authentication and access control.
-
+- **Authentication**: By default, the application is configured to allow unauthenticated access. To restrict access, you can modify the Cloud Run settings in the script. Additionally, if you want to restrict access to specific users or domains, consider using [Identity-Aware Proxy (IAP)](https://github.com/AmirMK/scence-to-style/edit/main/README.md#step-2-enable-identity-aware-proxy-iap-for-cloud-run), which provides secure authentication and access control.
 
 - **Environment Variables**: The script sets essential environment variables for the application’s functionality:
   - **Service Account and Bucket Name**: In addition to `PROJECT_ID`, these are the main environment variables required to run the app. The script automatically assigns names to these variables, but users can change them by modifying lines 33 and 34 in the `set_up.sh` file.
