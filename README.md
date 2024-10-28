@@ -3,7 +3,7 @@
 This is a Streamlit app for personalized furniture and fashion recommendations. Users can upload a video, and the app uses Gemini's multimodal analysis to first identify whether the content is best suited for furniture or fashion recommendations. Based on this initial analysis, the app then provides tailored suggestions: for furniture, it evaluates the style and architecture of the space, offering relevant decor and furniture items; for fashion, it analyzes outfits, trends, and styles, recommending similar items to enhance the user’s wardrobe. The Imagine model visualizes these recommendations, and Google Lens enables users to search for items they like directly by image.
 
 
-<img src="images/cover.gif" alt="Alt text" width="700"/>
+<img src="cover/scene-to-style-cover.gif" alt="Alt text" width="700"/>
 
 ## Prerequisites
 
