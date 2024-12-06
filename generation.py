@@ -22,6 +22,7 @@ from vertexai.generative_models import (
     Content,
     GenerationResponse,    
 )
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import gcs_handler as gcsh
 
@@ -88,6 +89,53 @@ def identify_recommenation(PROJECT_ID, LOCATION, video_file_url,opiotns,mime_typ
   
     return response
 
+def call_gemini(index, image_prompt):
+    # Initialize the image generation model from GCP's pre-trained model 'imagen-3.0-generate-001'.
+    image_model = ImageGenerationModel.from_pretrained("imagen-3.0-generate-001")
+
+
+    # Generate up to 4 images using the model, based on the provided image and negative prompts.
+    images = image_model.generate_images(
+            prompt=image_prompt,        # The prompt describing the desired image.
+            number_of_images=2,         # Specify how many images to generate (up to 4).
+            language="en",              # Language of the prompt (English in this case).
+            aspect_ratio="1:1",         # Aspect ratio of the generated images (square format).
+        )
+    return index, images
+    
+def run_multiple_times(recommendation_df, batch_size=10, model='imagen-3.0-generate-001'):
+    # Initialize llm_responses to store results
+    llm_responses = []
+
+    # Prepare tasks with Id as the index
+    tasks = [(row['Id'], row['image_generation_prompt']) for _, row in recommendation_df.iterrows()]
+
+    with ThreadPoolExecutor(max_workers=batch_size) as executor:
+        for i in range(0, len(tasks), batch_size):
+            batch = tasks[i:i + batch_size]
+            
+            # Submit tasks to the executor
+            futures = [
+                executor.submit(call_gemini, Id, prompt) for Id, prompt in batch
+            ]
+            
+            # Collect the results as they complete
+            for future in as_completed(futures):
+                Id = None  # Initialize Id to handle errors gracefully
+                try:
+                    # Extract the Id and generated images from call_gemini
+                    Id, images = future.result()
+                    
+                    # Store only the Id and images in llm_responses
+                    llm_responses.append({
+                        "Id": Id,
+                        "images": images
+                    })
+                    
+                except Exception as e:
+                    print(f"Error processing prompt with Id {Id}: {e}")
+
+    return llm_responses  # Return the collected responses
 
 def generate_recommenation(PROJECT_ID, LOCATION, video_file_url,prompt,instructions,response_schema,mime_type):
     
@@ -127,31 +175,24 @@ def remove_recommendation_key(input_json, recommendation_field):
 def post_processing(response,recommendation_field):
     try:
         response_json = json.loads(response.text)
-        recommendation_df = pd.DataFrame(response_json[recommendation_field])        
+        recommendation_df = pd.DataFrame(response_json[recommendation_field]) 
+        recommendation_df["Id"] = range(1, len(recommendation_df) + 1)       
         intro_json = remove_recommendation_key(response_json, recommendation_field)
         return recommendation_df, intro_json
     except:
         return None, None
     
-def image_generation(image_prompt,n=2):
-    image_model = ImageGenerationModel.from_pretrained("imagen-3.0-generate-001")
-    
-    images = image_model.generate_images(
-        prompt=image_prompt,        
-        number_of_images=n,
-        language="en",    
-        aspect_ratio="1:1",
-    )
-    
-    return images 
+
 
 def images_generation(recommendation_df,name,n=2):
-    
-    recommendation_df['image_name'] = ""
-    for index, row in tqdm(recommendation_df.iterrows(), total=recommendation_df.shape[0], desc="Image generation..."):
+    res = run_multiple_times(recommendation_df, batch_size=10, model='imagen-3.0-generate-001')
+    res_df = pd.DataFrame(res)
+    recommendation_df = pd.merge(recommendation_df, res_df, on="Id")
+
+    recommendation_df['image_name'] = ""    
+    for index, row in recommendation_df.iterrows():
         image_name = row[name].replace(" ", "_")
-        image_prompt = row['image_generation_prompt']
-        images = image_generation(image_prompt)   
+        images = row['images']           
         image_name_list=[]
         for i in range(0,n):
                 image_name_ = f'image-{image_name}-{i}.JPG'
@@ -188,28 +229,6 @@ def delete_images(df_rocm):
                     print(f"File {image_path} does not exist.")
             except Exception as e:
                 print(f"Error deleting image {image_path}: {e}")
-
-
-def images_generation(recommendation_df,name):
-    
-    recommendation_df['image_name'] = ""
-    #for index, row in tqdm(recommendation_df.iterrows(), total=recommendation_df.shape[0], desc="Image generation..."):
-    for index, row in recommendation_df.iterrows():
-        image_name = row[name].replace(" ", "_")
-        image_prompt = row['image_generation_prompt']
-        images = image_generation(image_prompt)   
-        image_name_list=[]
-        for i in range(0,2):
-                image_name_ = f'image-{image_name}-{i}.JPG'
-                image_name_list.append(image_name_)
-                try:
-                    images[i].save(location=image_name_, include_generation_parameters=False)
-                except:
-                    pass   
-
-        recommendation_df.at[index, 'image_name'] = image_name_list
-    
-    return recommendation_df
 
 
 def update_progress(progress_stage, status_texts, task_names):
@@ -319,4 +338,3 @@ def generate_recommendation(project_id, location, video_file_url, bucket, subfol
 
     if error_code not in [0,100]:
         st.error (error_dic[error_code])
-        
